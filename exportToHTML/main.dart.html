@@ -1,0 +1,225 @@
+<html>
+<head>
+<title>main.dart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+.s1 { color: #6a8759;}
+.s2 { color: #cc7832;}
+.s3 { color: #6897bb;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.dart</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">'dart:async'</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">'package:flutter/material.dart'</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">'package:tic_tac_toe/Ui/thems/color.dart'</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">'Utils/game__logic.dart'</span><span class="s2">;</span>
+
+<span class="s2">void </span><span class="s0">main() {</span>
+  <span class="s0">runApp(</span><span class="s2">const </span><span class="s0">MyApp())</span><span class="s2">;</span>
+<span class="s0">}</span>
+
+<span class="s2">class </span><span class="s0">MyApp </span><span class="s2">extends </span><span class="s0">StatefulWidget {</span>
+  <span class="s2">const </span><span class="s0">MyApp({Key? key}) : </span><span class="s2">super</span><span class="s0">(key: key)</span><span class="s2">;</span>
+
+  <span class="s0">@override</span>
+  <span class="s0">State&lt;MyApp&gt; createState() =&gt; _MyAppState()</span><span class="s2">;</span>
+<span class="s0">}</span>
+
+<span class="s2">class </span><span class="s0">_MyAppState </span><span class="s2">extends </span><span class="s0">State&lt;MyApp&gt; {</span>
+  <span class="s0">String lastValue = </span><span class="s1">&quot;X&quot;</span><span class="s2">;</span>
+  <span class="s0">int gameOver = </span><span class="s3">0</span><span class="s2">;</span>
+  <span class="s0">int CountO = </span><span class="s3">0</span><span class="s2">;</span>
+  <span class="s0">int CountX = </span><span class="s3">0</span><span class="s2">;</span>
+  <span class="s0">int turn = </span><span class="s3">0</span><span class="s2">;</span>
+  <span class="s0">String res = </span><span class="s1">&quot;&quot;</span><span class="s2">;</span>
+  <span class="s0">bool isRepeat = </span><span class="s2">false;</span>
+  <span class="s0">List&lt;int&gt; scoreboard = [</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s0">]</span><span class="s2">;</span>
+
+  <span class="s0">Game game = Game()</span><span class="s2">;</span>
+  <span class="s0">@override</span>
+  <span class="s2">void </span><span class="s0">initState() {</span>
+    <span class="s4">// TODO: implement initState</span>
+    <span class="s2">super</span><span class="s0">.initState()</span><span class="s2">;</span>
+    <span class="s0">game.board = Game.initGameBoard()</span><span class="s2">;</span>
+    <span class="s0">print(game.board)</span><span class="s2">;</span>
+  <span class="s0">}</span>
+  <span class="s0">@override</span>
+  <span class="s0">Widget build(BuildContext context) {</span>
+    <span class="s2">return </span><span class="s0">MaterialApp(</span>
+      <span class="s0">debugShowCheckedModeBanner: </span><span class="s2">false,</span>
+      <span class="s0">home: Scaffold(</span>
+       <span class="s0">backgroundColor: MainColor.primaryColor</span><span class="s2">,</span>
+        <span class="s0">body: Column(</span>
+          <span class="s0">mainAxisAlignment: MainAxisAlignment.center</span><span class="s2">,</span>
+          <span class="s0">crossAxisAlignment: CrossAxisAlignment.center</span><span class="s2">,</span>
+          <span class="s0">children: [</span>
+            <span class="s0">Padding(</span>
+              <span class="s0">padding: </span><span class="s2">const </span><span class="s0">EdgeInsets.only(top:</span><span class="s3">25.0</span><span class="s0">)</span><span class="s2">,</span>
+              <span class="s0">child: Text(</span><span class="s1">&quot;It's </span><span class="s0">${lastValue} </span><span class="s1">turn&quot;</span><span class="s0">.toUpperCase()</span><span class="s2">,</span>
+              <span class="s0">style: TextStyle(</span>
+                <span class="s0">fontSize: </span><span class="s3">58</span><span class="s2">,</span>
+                <span class="s0">color: Colors.white</span>
+              <span class="s0">)</span><span class="s2">,</span>
+              <span class="s0">)</span><span class="s2">,</span>
+            <span class="s0">)</span><span class="s2">,</span>
+            <span class="s0">SizedBox(</span>
+              <span class="s0">height: </span><span class="s3">20.0</span><span class="s2">,</span>
+            <span class="s0">)</span><span class="s2">,</span>
+            <span class="s0">Padding(</span>
+              <span class="s0">padding: </span><span class="s2">const </span><span class="s0">EdgeInsets.symmetric(horizontal: </span><span class="s3">25.0</span><span class="s0">)</span><span class="s2">,</span>
+              <span class="s0">child: Row(</span>
+                <span class="s0">children: [</span>
+                  <span class="s0">Spacer(flex: </span><span class="s3">1</span><span class="s2">,</span><span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">Text(</span><span class="s1">&quot;O : </span><span class="s0">${CountO}</span><span class="s1">&quot;</span><span class="s2">,</span>
+                    <span class="s0">style: TextStyle(</span>
+                        <span class="s0">fontSize: </span><span class="s3">40</span><span class="s2">,</span>
+                        <span class="s0">color: Colors.white</span>
+                    <span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">Spacer(flex: </span><span class="s3">7</span><span class="s2">,</span><span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">Text(</span><span class="s1">&quot;X : </span><span class="s0">${CountX}</span><span class="s1">&quot;</span><span class="s2">,</span>
+                    <span class="s0">style: TextStyle(</span>
+                        <span class="s0">fontSize: </span><span class="s3">40</span><span class="s2">,</span>
+                        <span class="s0">color: Colors.white</span>
+                    <span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">Spacer(flex: </span><span class="s3">1</span><span class="s2">,</span><span class="s0">)</span><span class="s2">,</span>
+                <span class="s0">]</span><span class="s2">,</span>
+              <span class="s0">)</span><span class="s2">,</span>
+            <span class="s0">)</span><span class="s2">,</span>
+            <span class="s0">Container(</span>
+              <span class="s0">width: </span><span class="s3">400.0</span><span class="s2">,</span>
+              <span class="s0">height: </span><span class="s3">400.0</span><span class="s2">,</span>
+              <span class="s0">child: GridView.count(crossAxisCount: Game.boardlength ~/</span><span class="s3">3</span><span class="s2">,</span>
+                <span class="s0">padding: EdgeInsets.all(</span><span class="s3">16.0</span><span class="s0">)</span><span class="s2">,</span>
+                <span class="s0">crossAxisSpacing: </span><span class="s3">8.0</span><span class="s2">,</span>
+                <span class="s0">mainAxisSpacing: </span><span class="s3">8.0</span><span class="s2">,</span>
+                <span class="s0">children: List.generate(Game.boardlength</span><span class="s2">, </span><span class="s0">(index){</span>
+                <span class="s2">return </span><span class="s0">InkWell(</span>
+                  <span class="s0">onTap: gameOver != </span><span class="s3">0</span><span class="s0">? </span><span class="s2">null</span><span class="s0">: (){</span>
+                    <span class="s2">if</span><span class="s0">(game.board![index] == </span><span class="s1">&quot;&quot;</span><span class="s0">){</span>
+                      <span class="s0">setState(() {</span>
+                        <span class="s0">game.board![index] = lastValue</span><span class="s2">;</span>
+                        <span class="s0">turn++</span><span class="s2">;</span>
+                        <span class="s0">gameOver = game.winnerCheck(lastValue</span><span class="s2">, </span><span class="s0">index</span><span class="s2">, </span><span class="s0">scoreboard</span><span class="s2">, </span><span class="s3">3</span><span class="s0">)</span><span class="s2">;</span>
+                        <span class="s2">if</span><span class="s0">(gameOver == </span><span class="s3">1 </span><span class="s0">||gameOver == </span><span class="s3">2 </span><span class="s0">){</span>
+                          <span class="s4">// showDialog&lt;String&gt;(context: context,</span>
+                          <span class="s4">//     builder: (BuildContext context) =&gt; AlertDialog(</span>
+                          <span class="s4">//       title: Text(&quot;The Winner&quot;),</span>
+                          <span class="s4">//       content: Text(&quot;$lastValue is the Winner&quot;),</span>
+                          <span class="s4">//     ),</span>
+                          <span class="s4">// );</span>
+                          <span class="s0">Timer(Duration(seconds: </span><span class="s3">2</span><span class="s0">)</span><span class="s2">, </span><span class="s0">() {</span>
+                            <span class="s0">print(</span><span class="s1">&quot;</span><span class="s0">$lastValue </span><span class="s1">is the Winner&quot;</span><span class="s0">)</span><span class="s2">;</span>
+                          <span class="s0">})</span><span class="s2">;</span>
+                          <span class="s2">if</span><span class="s0">(gameOver == </span><span class="s3">1</span><span class="s0">) {</span>
+                            <span class="s0">CountX++</span><span class="s2">;</span>
+                          <span class="s0">}</span>
+                          <span class="s2">else if</span><span class="s0">(gameOver == </span><span class="s3">2</span><span class="s0">)</span>
+                          <span class="s0">{</span>
+                            <span class="s0">CountO++</span><span class="s2">;</span>
+                          <span class="s0">}</span>
+                          <span class="s0">game.board = Game.initGameBoard()</span><span class="s2">;</span>
+                          <span class="s0">gameOver = </span><span class="s3">0</span><span class="s2">;</span>
+                          <span class="s0">turn = </span><span class="s3">0</span><span class="s2">;</span>
+                          <span class="s0">res = </span><span class="s1">&quot;&quot;</span><span class="s2">;</span>
+                          <span class="s0">scoreboard = [</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s0">]</span><span class="s2">;</span>
+                          <span class="s2">if</span><span class="s0">(isRepeat)</span>
+                            <span class="s0">{</span>
+                              <span class="s0">lastValue = </span><span class="s1">&quot;X&quot;</span><span class="s2">;</span>
+                              <span class="s0">isRepeat = </span><span class="s2">false;</span>
+                            <span class="s0">}</span>
+                          <span class="s2">else</span><span class="s0">{</span>
+                            <span class="s0">lastValue = </span><span class="s1">&quot;O&quot;</span><span class="s2">;</span>
+                            <span class="s0">isRepeat = </span><span class="s2">true;</span>
+                          <span class="s0">}</span>
+                        <span class="s0">}</span>
+                        <span class="s2">else if</span><span class="s0">(turn == </span><span class="s3">9</span><span class="s0">){</span>
+                          <span class="s4">// showDialog&lt;String&gt;(context: context,</span>
+                          <span class="s4">//     builder: (BuildContext context) =&gt; AlertDialog(</span>
+                          <span class="s4">//       title: Text(&quot;The End Game&quot;),</span>
+                          <span class="s4">//       content: Text(&quot;It's Draw&quot;),</span>
+                          <span class="s4">//     ),</span>
+                          <span class="s4">// );</span>
+                          <span class="s0">Timer(Duration(seconds: </span><span class="s3">2</span><span class="s0">)</span><span class="s2">, </span><span class="s0">() {</span>
+                            <span class="s0">print(</span><span class="s1">&quot;It's Draw&quot;</span><span class="s0">)</span><span class="s2">;</span>
+                          <span class="s0">})</span><span class="s2">;</span>
+                          <span class="s0">game.board = Game.initGameBoard()</span><span class="s2">;</span>
+                          <span class="s0">gameOver = </span><span class="s3">0</span><span class="s2">;</span>
+                          <span class="s0">turn = </span><span class="s3">0</span><span class="s2">;</span>
+                          <span class="s0">res = </span><span class="s1">&quot;&quot;</span><span class="s2">;</span>
+                          <span class="s0">scoreboard = [</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s0">]</span><span class="s2">;</span>
+                          <span class="s2">if</span><span class="s0">(isRepeat)</span>
+                          <span class="s0">{</span>
+                            <span class="s0">lastValue = </span><span class="s1">&quot;X&quot;</span><span class="s2">;</span>
+                            <span class="s0">isRepeat = </span><span class="s2">false;</span>
+                          <span class="s0">}</span>
+                          <span class="s2">else</span><span class="s0">{</span>
+                            <span class="s0">lastValue = </span><span class="s1">&quot;O&quot;</span><span class="s2">;</span>
+                            <span class="s0">isRepeat = </span><span class="s2">true;</span>
+                          <span class="s0">}</span>
+                        <span class="s0">}</span>
+                        <span class="s2">else</span><span class="s0">{</span>
+                          <span class="s2">if</span><span class="s0">(lastValue == </span><span class="s1">&quot;X&quot;</span><span class="s0">)</span>
+                            <span class="s0">lastValue = </span><span class="s1">&quot;O&quot;</span><span class="s2">;</span>
+                          <span class="s2">else</span>
+                            <span class="s0">lastValue = </span><span class="s1">&quot;X&quot;</span><span class="s2">;</span>
+
+                        <span class="s0">}</span>
+                      <span class="s0">})</span><span class="s2">;</span>
+                    <span class="s0">}</span>
+                  <span class="s0">}</span><span class="s2">,</span>
+                  <span class="s0">child: Container(</span>
+                    <span class="s0">width: Game.blockSize</span><span class="s2">,</span>
+                    <span class="s0">height: Game.blockSize</span><span class="s2">,</span>
+                    <span class="s0">decoration: BoxDecoration(</span>
+                      <span class="s0">color: MainColor.secondaryColor</span><span class="s2">,</span>
+                      <span class="s0">borderRadius: BorderRadius.circular(</span><span class="s3">16.0</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">child: Center(</span>
+                      <span class="s0">child: Text(game.board![index]</span><span class="s2">, </span><span class="s0">style: TextStyle(</span>
+                        <span class="s0">color: game.board![index] == </span><span class="s1">&quot;X&quot;</span><span class="s0">?</span>
+                        <span class="s0">Colors.blue:</span>
+                        <span class="s0">Colors.pink</span><span class="s2">,</span>
+                        <span class="s0">fontSize: </span><span class="s3">50.0</span><span class="s2">,</span>
+                      <span class="s0">)</span><span class="s2">,</span>
+                      <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">)</span><span class="s2">,</span>
+                <span class="s0">)</span><span class="s2">;</span>
+              <span class="s0">})</span><span class="s2">,</span>
+              <span class="s0">)</span><span class="s2">,</span>
+            <span class="s0">)</span><span class="s2">,</span>
+           <span class="s0">IconButton(onPressed: (){</span>
+             <span class="s0">setState(() {</span>
+               <span class="s0">game.board = Game.initGameBoard()</span><span class="s2">;</span>
+               <span class="s0">lastValue = </span><span class="s1">&quot;X&quot;</span><span class="s2">;</span>
+               <span class="s0">gameOver = </span><span class="s3">0</span><span class="s2">;</span>
+               <span class="s0">turn = </span><span class="s3">0</span><span class="s2">;</span>
+               <span class="s0">res = </span><span class="s1">&quot;&quot;</span><span class="s2">;</span>
+               <span class="s0">scoreboard = [</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s2">,</span><span class="s3">0</span><span class="s0">]</span><span class="s2">;</span>
+               <span class="s0">CountO = CountX = </span><span class="s3">0</span><span class="s2">;</span>
+             <span class="s0">})</span><span class="s2">;</span>
+           <span class="s0">}</span><span class="s2">,</span>
+             <span class="s0">icon: Icon(Icons.replay</span><span class="s2">,</span>
+             <span class="s0">)</span><span class="s2">,</span>
+             <span class="s0">color: MainColor.accentColor</span><span class="s2">,</span>
+               <span class="s0">)</span><span class="s2">,</span>
+          <span class="s0">]</span><span class="s2">,</span>
+        <span class="s0">)</span><span class="s2">,</span>
+      <span class="s0">)</span><span class="s2">,</span>
+    <span class="s0">)</span><span class="s2">;</span>
+  <span class="s0">}</span>
+<span class="s0">}</span>
+</pre>
+</body>
+</html>
